@@ -4,303 +4,376 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Movie Streaming App</title>
+<meta name="theme-color" content="#090b0d">
+<title>MovieCanvas - Premium Movie Streaming</title>
 
 <style>
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
+*{
+ margin:0;
+ padding:0;
+ box-sizing:border-box;
 }
 
-body {
-    background: #101010;
-    font-family: Arial, sans-serif;
-    color: white;
-    min-height: 100vh;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    padding: 15px;
+html{scroll-behavior:smooth}
+
+body{
+ background:#090b0d;
+ font-family:Arial,sans-serif;
+ color:white;
+ min-height:100vh;
+ width:100%;
 }
 
-.phone {
-    width: 300px;
-    height: 610px;
-    background: #050505;
-    border: 6px solid #12bb79;
-    border-radius: 39px;
-    overflow: hidden;
-    position: relative;
-    box-shadow: 0 0 30px #000;
+/* FULL SCREEN WEBSITE */
+
+.phone{
+ width:100%;
+ max-width:none;
+ min-height:100vh;
+ background:#090b0d;
+ border:0;
+ border-radius:0;
+ overflow:visible;
+ position:relative;
+ box-shadow:none;
 }
 
-.screen {
-    height: 100%;
-    overflow-y: auto;
-    scrollbar-width: none;
-    padding-bottom: 65px;
-    background: #090b0d;
+.screen{
+ width:100%;
+ min-height:100vh;
+ overflow:visible;
+ padding-bottom:85px;
+ background:#090b0d;
 }
 
-.screen::-webkit-scrollbar {
-    display: none;
+/* HEADER */
+
+.header{
+ background:#090d10;
+ padding:17px 5%;
+ border-bottom:1px solid #202b2b;
 }
 
-/* Status bar */
-
-.status {
-    height: 38px;
-    padding: 10px 15px;
-    display: flex;
-    justify-content: space-between;
-    font-size: 10px;
-    position: relative;
+.topbar{
+ display:flex;
+ justify-content:space-between;
+ align-items:center;
+ gap:12px;
 }
 
-.notch {
-    position: absolute;
-    top: 7px;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 105px;
-    height: 25px;
-    background: #000;
-    border-radius: 20px;
+.logo{
+ font-size:25px;
+ font-weight:900;
+ letter-spacing:-1px;
 }
 
-/* Search */
+.logo span{color:#19c982}
 
-.search-area {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    padding: 5px 12px 12px;
+.menu{
+ color:#19c982;
+ font-size:23px;
+ cursor:pointer;
 }
 
-.search {
-    flex: 1;
-    height: 27px;
-    border: 1px solid #666;
-    background: #111820;
-    border-radius: 3px;
-    color: white;
-    padding: 0 10px;
-    font-size: 10px;
+.vip{
+ color:#e8d8a5;
+ font-size:13px;
+ white-space:nowrap;
 }
 
-.vip {
-    font-size: 10px;
-    white-space: nowrap;
-    color: #e8d8a5;
+.search-area{
+ display:flex;
+ align-items:center;
+ gap:12px;
+ margin-top:17px;
 }
 
-/* Categories */
-
-.categories {
-    display: flex;
-    justify-content: space-around;
-    height: 35px;
-    align-items: center;
-    font-size: 10px;
-    color: #ddd;
+.search{
+ flex:1;
+ min-width:0;
+ height:45px;
+ border:1px solid #38444d;
+ background:#151d24;
+ border-radius:25px;
+ color:white;
+ padding:0 17px;
+ font-size:14px;
+ outline:none;
 }
 
-.categories span:first-child {
-    border-bottom: 2px solid #13b77a;
-    padding: 10px 13px;
+.search:focus{border-color:#19c982}
+
+/* CATEGORIES */
+
+.categories{
+ display:flex;
+ gap:9px;
+ overflow-x:auto;
+ padding:15px 0 5px;
+ scrollbar-width:none;
 }
 
-/* Hero */
+.categories::-webkit-scrollbar{display:none}
 
-.hero {
-    height: 235px;
-    position: relative;
-    background:
-    linear-gradient(to top, #090b0d 0%, transparent 60%),
-    url("https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?w=800")
-    center 35% / cover;
+.categories span{
+ flex-shrink:0;
+ padding:10px 16px;
+ border-radius:20px;
+ background:#1b2229;
+ color:#ddd;
+ font-size:12px;
+ cursor:pointer;
 }
 
-.hero::after {
-    content: "";
-    position: absolute;
-    inset: 0;
-    background: linear-gradient(
-        to top,
-        #090b0d 0%,
-        transparent 55%,
-        rgba(0,0,0,.25) 100%
-    );
+.categories span.active{
+ background:#064c35;
+ color:#27e9a0;
+ border:1px solid #19c982;
 }
 
-.hero-info {
-    position: absolute;
-    bottom: 8px;
-    left: 12px;
-    z-index: 2;
+/* HERO BANNER */
+
+.hero{
+ width:100%;
+ height:290px;
+ position:relative;
+ background:
+ linear-gradient(to top,#090b0d 0%,transparent 65%),
+ url("https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?w=1400")
+ center 35%/cover;
 }
 
-.hero-info h3 {
-    font-size: 11px;
-    margin-bottom: 5px;
+.hero::after{
+ content:"";
+ position:absolute;
+ inset:0;
+ background:linear-gradient(
+  to top,#090b0d 0%,transparent 65%,
+  rgba(0,0,0,.2) 100%
+ );
 }
 
-.hero-info p {
-    font-size: 9px;
-    color: #aaa;
+.hero-info{
+ position:absolute;
+ bottom:23px;
+ left:5%;
+ z-index:2;
 }
 
-.tagline {
-    position: absolute;
-    bottom: 15px;
-    right: 12px;
-    font-size: 8px;
-    letter-spacing: 4px;
-    color: #ddd;
-    z-index: 2;
+.hero-info h3{
+ font-size:30px;
+ margin-bottom:8px;
 }
 
-/* Trending */
-
-.trending {
-    padding: 12px;
+.hero-info p{
+ font-size:14px;
+ color:#bbb;
+ margin-bottom:15px;
 }
 
-.section-heading {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 10px;
+.watch-button{
+ display:inline-block;
+ padding:12px 22px;
+ border:1px solid #19c982;
+ border-radius:25px;
+ color:#19c982;
+ text-decoration:none;
+ font-size:14px;
+ font-weight:bold;
 }
 
-.section-heading h2 {
-    font-size: 15px;
-    font-weight: 500;
+.tagline{
+ position:absolute;
+ bottom:28px;
+ right:5%;
+ font-size:11px;
+ letter-spacing:3px;
+ color:#ddd;
+ z-index:2;
 }
 
-.section-heading a {
-    color: #3fc78b;
-    font-size: 9px;
-    text-decoration: none;
+/* TRENDING SECTION */
+
+.trending{
+ padding:22px 5%;
 }
 
-.movies {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 7px;
+.section-heading{
+ display:flex;
+ justify-content:space-between;
+ align-items:center;
+ margin-bottom:17px;
 }
 
-.movie-card {
-    min-width: 0;
+.section-heading h2{
+ font-size:22px;
+ font-weight:600;
+ border-left:5px solid #19c982;
+ padding-left:12px;
 }
 
-.poster {
-    height: 122px;
-    border-radius: 7px;
-    overflow: hidden;
-    position: relative;
-    background-size: cover;
-    background-position: center;
+.section-heading a{
+ color:#19c982;
+ font-size:13px;
+ text-decoration:none;
 }
 
-.poster::after {
-    content: "";
-    position: absolute;
-    inset: 0;
-    background: linear-gradient(
-        to top,
-        rgba(0,0,0,.45),
-        transparent 55%
-    );
+/* MOVIE GRID */
+
+.movies{
+ display:grid;
+ grid-template-columns:repeat(3,minmax(0,1fr));
+ gap:15px;
 }
 
-.poster.one {
-    background-image: url(
-      "https://images.unsplash.com/photo-1518837695005-2083093ee35b?w=400"
-    );
+.movie-card{
+ min-width:0;
+ background:#101519;
+ border:1px solid #202c30;
+ border-radius:12px;
+ overflow:hidden;
+ transition:.2s;
 }
 
-.poster.two {
-    background-image: url(
-      "https://images.unsplash.com/photo-1500534623283-312aade485b7?w=400"
-    );
+.movie-card:hover{
+ transform:translateY(-4px);
+ border-color:#19c982;
+ box-shadow:0 5px 20px #00c98225;
 }
 
-.poster.three {
-    background-image: url(
-      "https://images.unsplash.com/photo-1509248961158-e54f6934749c?w=400"
-    );
+.poster{
+ height:220px;
+ overflow:hidden;
+ position:relative;
+ background-size:cover;
+ background-position:center;
 }
 
-.poster-label {
-    position: absolute;
-    z-index: 2;
-    bottom: 12px;
-    left: 5px;
-    right: 3px;
-    font-size: 12px;
-    font-weight: 900;
-    text-transform: uppercase;
-    text-shadow: 1px 2px 4px black;
+.poster.one{
+ background-image:url("https://images.unsplash.com/photo-1518837695005-2083093ee35b?w=500");
 }
 
-.movie-info {
-    padding-top: 6px;
+.poster.two{
+ background-image:url("https://images.unsplash.com/photo-1500534623283-312aade485b7?w=500");
 }
 
-.movie-info h4 {
-    font-size: 9px;
-    margin-bottom: 4px;
+.poster.three{
+ background-image:url("https://images.unsplash.com/photo-1509248961158-e54f6934749c?w=500");
 }
 
-.movie-info p {
-    font-size: 8px;
-    color: #999;
+.poster::after{
+ content:"";
+ position:absolute;
+ inset:0;
+ background:linear-gradient(
+  to top,rgba(0,0,0,.8),transparent 55%
+ );
 }
 
-/* Bottom Navigation */
-
-.bottom-nav {
-    position: absolute;
-    bottom: 0;
-    width: 100%;
-    height: 55px;
-    background: rgba(8, 12, 13, .97);
-    display: flex;
-    justify-content: space-around;
-    align-items: center;
-    border-top: 1px solid #202526;
+.poster-label{
+ position:absolute;
+ bottom:13px;
+ left:10px;
+ right:5px;
+ z-index:2;
+ font-size:18px;
+ font-weight:900;
+ text-transform:uppercase;
+ text-shadow:1px 2px 5px black;
 }
 
-.nav-item {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 4px;
-    color: #999;
-    font-size: 8px;
+.movie-info{
+ padding:12px;
 }
 
-.nav-item .icon {
-    font-size: 17px;
+.movie-info h4{
+ font-size:14px;
+ margin-bottom:6px;
 }
 
-.nav-item.active {
-    color: #19c982;
+.movie-info p{
+ font-size:12px;
+ color:#999;
 }
 
-.nav-item.active .icon {
-    background: #19c982;
-    color: #07140e;
-    border-radius: 50%;
-    padding: 5px;
+/* BOTTOM NAVIGATION */
+
+.bottom-nav{
+ position:fixed;
+ bottom:0;
+ left:0;
+ width:100%;
+ height:70px;
+ background:rgba(8,12,13,.97);
+ backdrop-filter:blur(15px);
+ display:flex;
+ justify-content:space-around;
+ align-items:center;
+ border-top:1px solid #202c30;
+ z-index:100;
 }
 
-@media (min-width: 600px) {
-    .phone {
-        transform: scale(1.05);
-    }
+.nav-item{
+ display:flex;
+ flex-direction:column;
+ align-items:center;
+ gap:5px;
+ color:#999;
+ font-size:11px;
+ cursor:pointer;
+}
+
+.nav-item .icon{font-size:23px}
+
+.nav-item.active{color:#19c982}
+
+.nav-item.active .icon{
+ background:#19c982;
+ color:#07140e;
+ border-radius:50%;
+ padding:5px;
+}
+
+/* FOOTER */
+
+footer{
+ text-align:center;
+ padding:30px 15px 95px;
+ color:#888;
+ font-size:12px;
+ border-top:1px solid #202c30;
+}
+
+footer .logo{margin-bottom:10px}
+
+/* TABLET */
+
+@media(min-width:650px){
+ .hero{height:380px}
+ .poster{height:280px}
+ .movies{grid-template-columns:repeat(4,minmax(0,1fr))}
+}
+
+/* DESKTOP */
+
+@media(min-width:1000px){
+ .header{padding-left:7%;padding-right:7%}
+ .trending{padding-left:7%;padding-right:7%}
+ .hero{height:470px}
+ .movies{grid-template-columns:repeat(5,minmax(0,1fr))}
+ .poster{height:310px}
+ .logo{font-size:29px}
+}
+
+@media(max-width:400px){
+ .logo{font-size:21px}
+ .vip{font-size:11px}
+ .hero{height:230px}
+ .poster{height:145px}
+ .movies{gap:8px}
+ .movie-info{padding:8px}
+ .movie-info h4{font-size:11px}
+ .poster-label{font-size:13px}
 }
 </style>
 </head>
@@ -310,96 +383,133 @@ body {
 <div class="phone">
 <div class="screen">
 
-    <div class="status">
-        <span>9:30</span>
-        <div class="notch"></div>
-        <span>● ▰ ▴</span>
-    </div>
+<!-- HEADER -->
 
-    <div class="search-area">
-        <input class="search" placeholder="⌕  Search">
-        <div class="vip">♛ VIP Access</div>
-    </div>
+<header class="header">
 
-    <div class="categories">
-        <span>Action</span>
-        <span>Classic</span>
-        <span>Children</span>
-        <span>Horror</span>
-    </div>
+ <div class="topbar">
+  <div class="menu">☰</div>
 
-    <section class="hero">
-        <div class="hero-info">
-            <h3>Road House</h3>
-            <p>2024</p>
-        </div>
-        <div class="tagline">TAKE IT OUTSIDE</div>
-    </section>
+  <div class="logo">
+   MOVIE<span>CANVAS</span>
+  </div>
 
-    <section class="trending">
+  <div class="vip">♛ VIP Access</div>
+ </div>
 
-        <div class="section-heading">
-            <h2>Trending Now</h2>
-            <a href="#">View All</a>
-        </div>
+ <div class="search-area">
+  <input class="search"
+   type="search"
+   placeholder="⌕  Search Movies & Series...">
+ </div>
 
-        <div class="movies">
+ <div class="categories">
+  <span class="active">Action</span>
+  <span>Classic</span>
+  <span>Children</span>
+  <span>Horror</span>
+  <span>Drama</span>
+  <span>Sci-Fi</span>
+ </div>
 
-            <div class="movie-card">
-                <div class="poster one">
-                    <div class="poster-label">Freelance</div>
-                </div>
-                <div class="movie-info">
-                    <h4>Freelance</h4>
-                    <p>2023</p>
-                </div>
-            </div>
+</header>
 
-            <div class="movie-card">
-                <div class="poster two">
-                    <div class="poster-label">The Beekeeper</div>
-                </div>
-                <div class="movie-info">
-                    <h4>The Beekeeper</h4>
-                    <p>2024</p>
-                </div>
-            </div>
+<!-- HERO -->
 
-            <div class="movie-card">
-                <div class="poster three">
-                    <div class="poster-label">Silent Night</div>
-                </div>
-                <div class="movie-info">
-                    <h4>Silent Night</h4>
-                    <p>2023</p>
-                </div>
-            </div>
+<section class="hero">
 
-        </div>
-    </section>
+ <div class="hero-info">
+  <h3>Road House</h3>
+  <p>2024 · Action · Thriller</p>
+
+  <a href="#" class="watch-button">
+   ▶ Watch Now
+  </a>
+ </div>
+
+ <div class="tagline">
+  TAKE IT OUTSIDE
+ </div>
+
+</section>
+
+<!-- TRENDING -->
+
+<section class="trending">
+
+ <div class="section-heading">
+  <h2>Trending Now</h2>
+  <a href="#">View All →</a>
+ </div>
+
+ <div class="movies">
+
+  <div class="movie-card">
+   <div class="poster one">
+    <div class="poster-label">Freelance</div>
+   </div>
+   <div class="movie-info">
+    <h4>Freelance</h4>
+    <p>2023 · Movie</p>
+   </div>
+  </div>
+
+  <div class="movie-card">
+   <div class="poster two">
+    <div class="poster-label">The Beekeeper</div>
+   </div>
+   <div class="movie-info">
+    <h4>The Beekeeper</h4>
+    <p>2024 · Movie</p>
+   </div>
+  </div>
+
+  <div class="movie-card">
+   <div class="poster three">
+    <div class="poster-label">Silent Night</div>
+   </div>
+   <div class="movie-info">
+    <h4>Silent Night</h4>
+    <p>2023 · Movie</p>
+   </div>
+  </div>
+
+ </div>
+
+</section>
+
+<footer>
+ <div class="logo">MOVIE<span>CANVAS</span></div>
+ <p>Discover Movies. Explore Stories.</p>
+ <p>© 2026 MovieCanvas</p>
+</footer>
 
 </div>
 
+<!-- FIXED BOTTOM NAVIGATION -->
+
 <div class="bottom-nav">
-    <div class="nav-item active">
-        <span class="icon">⌂</span>
-        <span>Home</span>
-    </div>
 
-    <div class="nav-item">
-        <span class="icon">⊙</span>
-        <span>Explore</span>
-    </div>
+ <div class="nav-item active">
+  <span class="icon">⌂</span>
+  <span>Home</span>
+ </div>
 
-    <div class="nav-item">
-        <span class="icon">▣</span>
-        <span>Library</span>
-    </div>
+ <div class="nav-item">
+  <span class="icon">⊙</span>
+  <span>Explore</span>
+ </div>
 
-    <div class="nav-item">
-        <span class="icon">♙</span>
-        <span>Profile</span>
-    </div>
+ <div class="nav-item">
+  <span class="icon">▣</span>
+  <span>Library</span>
+ </div>
+
+ <div class="nav-item">
+  <span class="icon">♙</span>
+  <span>Profile</span>
+ </div>
+
 </div>
 
 </div>
