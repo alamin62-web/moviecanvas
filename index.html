@@ -4,131 +4,405 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>MovieCanvas</title>
+<title>Movie Streaming App</title>
+
 <style>
-*{box-sizing:border-box}
-body{margin:0;background:#090b10;color:white;font-family:Arial,sans-serif}
-header{background:#11151e;padding:18px 5%;border-bottom:1px solid #252b38}
-.logo{font-size:27px;font-weight:900;color:#fff}
-.logo span{color:#00d6a0}
-nav{display:flex;gap:18px;margin-top:15px;flex-wrap:wrap}
-nav a{color:#bbb;text-decoration:none;font-size:14px}
-.search{width:100%;margin-top:18px;padding:14px;border:1px solid #343b49;border-radius:8px;background:#090b10;color:white;font-size:15px}
-main{max-width:1200px;margin:auto;padding:20px}
-.hero{background:linear-gradient(110deg,#172b36,#26304c,#15151f);padding:30px 22px;border-radius:12px;margin-bottom:25px}
-.hero h1{font-size:30px;margin:0 0 10px}
-.hero p{color:#c3c8d2}
-h2{font-size:20px;border-left:4px solid #00d6a0;padding-left:12px}
-.filters{display:flex;gap:9px;overflow-x:auto;padding:12px 0}
-button{cursor:pointer}
-.filters button{border:0;background:#202633;color:white;padding:10px 17px;border-radius:20px;white-space:nowrap}
-.filters button.active{background:#00d6a0;color:#07110e}
-.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:15px}
-.card{background:#151923;border-radius:10px;overflow:hidden;border:1px solid #252b38}
-.poster{height:220px;display:flex;align-items:end;padding:14px;background:linear-gradient(145deg,var(--a),var(--b))}
-.poster strong{font-size:23px;text-shadow:0 2px 8px black}
-.info{padding:13px}
-.info h3{margin:8px 0;font-size:16px}
-.info p{color:#9ba4b5;font-size:12px}
-.tag{background:#087d60;color:white;padding:5px 8px;border-radius:4px;font-size:10px}
-.actions{display:flex;gap:7px;margin-top:12px}
-.actions a{flex:1;text-align:center;padding:10px 4px;text-decoration:none;font-size:12px;font-weight:bold;border-radius:6px}
-.watch{background:#00d6a0;color:#07110e}
-.download{background:#30394a;color:white}
-footer{text-align:center;color:#778091;padding:30px;font-size:12px}
-.empty{text-align:center;color:#aaa;padding:35px;grid-column:1/-1}
-@media(min-width:650px){.grid{grid-template-columns:repeat(3,1fr)}}
-@media(min-width:950px){.grid{grid-template-columns:repeat(4,1fr)}}
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    background: #101010;
+    font-family: Arial, sans-serif;
+    color: white;
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 15px;
+}
+
+.phone {
+    width: 300px;
+    height: 610px;
+    background: #050505;
+    border: 6px solid #12bb79;
+    border-radius: 39px;
+    overflow: hidden;
+    position: relative;
+    box-shadow: 0 0 30px #000;
+}
+
+.screen {
+    height: 100%;
+    overflow-y: auto;
+    scrollbar-width: none;
+    padding-bottom: 65px;
+    background: #090b0d;
+}
+
+.screen::-webkit-scrollbar {
+    display: none;
+}
+
+/* Status bar */
+
+.status {
+    height: 38px;
+    padding: 10px 15px;
+    display: flex;
+    justify-content: space-between;
+    font-size: 10px;
+    position: relative;
+}
+
+.notch {
+    position: absolute;
+    top: 7px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 105px;
+    height: 25px;
+    background: #000;
+    border-radius: 20px;
+}
+
+/* Search */
+
+.search-area {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 5px 12px 12px;
+}
+
+.search {
+    flex: 1;
+    height: 27px;
+    border: 1px solid #666;
+    background: #111820;
+    border-radius: 3px;
+    color: white;
+    padding: 0 10px;
+    font-size: 10px;
+}
+
+.vip {
+    font-size: 10px;
+    white-space: nowrap;
+    color: #e8d8a5;
+}
+
+/* Categories */
+
+.categories {
+    display: flex;
+    justify-content: space-around;
+    height: 35px;
+    align-items: center;
+    font-size: 10px;
+    color: #ddd;
+}
+
+.categories span:first-child {
+    border-bottom: 2px solid #13b77a;
+    padding: 10px 13px;
+}
+
+/* Hero */
+
+.hero {
+    height: 235px;
+    position: relative;
+    background:
+    linear-gradient(to top, #090b0d 0%, transparent 60%),
+    url("https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?w=800")
+    center 35% / cover;
+}
+
+.hero::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+        to top,
+        #090b0d 0%,
+        transparent 55%,
+        rgba(0,0,0,.25) 100%
+    );
+}
+
+.hero-info {
+    position: absolute;
+    bottom: 8px;
+    left: 12px;
+    z-index: 2;
+}
+
+.hero-info h3 {
+    font-size: 11px;
+    margin-bottom: 5px;
+}
+
+.hero-info p {
+    font-size: 9px;
+    color: #aaa;
+}
+
+.tagline {
+    position: absolute;
+    bottom: 15px;
+    right: 12px;
+    font-size: 8px;
+    letter-spacing: 4px;
+    color: #ddd;
+    z-index: 2;
+}
+
+/* Trending */
+
+.trending {
+    padding: 12px;
+}
+
+.section-heading {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.section-heading h2 {
+    font-size: 15px;
+    font-weight: 500;
+}
+
+.section-heading a {
+    color: #3fc78b;
+    font-size: 9px;
+    text-decoration: none;
+}
+
+.movies {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 7px;
+}
+
+.movie-card {
+    min-width: 0;
+}
+
+.poster {
+    height: 122px;
+    border-radius: 7px;
+    overflow: hidden;
+    position: relative;
+    background-size: cover;
+    background-position: center;
+}
+
+.poster::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+        to top,
+        rgba(0,0,0,.45),
+        transparent 55%
+    );
+}
+
+.poster.one {
+    background-image: url(
+      "https://images.unsplash.com/photo-1518837695005-2083093ee35b?w=400"
+    );
+}
+
+.poster.two {
+    background-image: url(
+      "https://images.unsplash.com/photo-1500534623283-312aade485b7?w=400"
+    );
+}
+
+.poster.three {
+    background-image: url(
+      "https://images.unsplash.com/photo-1509248961158-e54f6934749c?w=400"
+    );
+}
+
+.poster-label {
+    position: absolute;
+    z-index: 2;
+    bottom: 12px;
+    left: 5px;
+    right: 3px;
+    font-size: 12px;
+    font-weight: 900;
+    text-transform: uppercase;
+    text-shadow: 1px 2px 4px black;
+}
+
+.movie-info {
+    padding-top: 6px;
+}
+
+.movie-info h4 {
+    font-size: 9px;
+    margin-bottom: 4px;
+}
+
+.movie-info p {
+    font-size: 8px;
+    color: #999;
+}
+
+/* Bottom Navigation */
+
+.bottom-nav {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    height: 55px;
+    background: rgba(8, 12, 13, .97);
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    border-top: 1px solid #202526;
+}
+
+.nav-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+    color: #999;
+    font-size: 8px;
+}
+
+.nav-item .icon {
+    font-size: 17px;
+}
+
+.nav-item.active {
+    color: #19c982;
+}
+
+.nav-item.active .icon {
+    background: #19c982;
+    color: #07140e;
+    border-radius: 50%;
+    padding: 5px;
+}
+
+@media (min-width: 600px) {
+    .phone {
+        transform: scale(1.05);
+    }
+}
 </style>
 </head>
+
 <body>
 
-<header>
-  <div class="logo">MOVIE<span>CANVAS</span></div>
-  <nav>
-    <a href="#">Home</a>
-    <a href="#movies">Movies</a>
-    <a href="#movies">Series</a>
-    <a href="#footer">About</a>
-  </nav>
-  <input class="search" id="search" placeholder="Search movies or series...">
-</header>
+<div class="phone">
+<div class="screen">
 
-<main>
-  <section class="hero">
-    <h1>Discover Your Next Movie</h1>
-    <p>Explore movies, series and entertainment in one place.</p>
-  </section>
-
-  <section id="movies">
-    <h2>Recently Updated</h2>
-    <div class="filters">
-      <button class="active" onclick="filter('All',this)">All</button>
-      <button onclick="filter('Movie',this)">Movies</button>
-      <button onclick="filter('Series',this)">Series</button>
-      <button onclick="filter('Action',this)">Action</button>
-      <button onclick="filter('Drama',this)">Drama</button>
-      <button onclick="filter('Sci-Fi',this)">Sci-Fi</button>
+    <div class="status">
+        <span>9:30</span>
+        <div class="notch"></div>
+        <span>● ▰ ▴</span>
     </div>
-    <div class="grid" id="grid"></div>
-  </section>
-</main>
 
-<footer id="footer">
-  MovieCanvas © 2026 · Movie information and authorized links
-</footer>
+    <div class="search-area">
+        <input class="search" placeholder="⌕  Search">
+        <div class="vip">♛ VIP Access</div>
+    </div>
 
-<script>
-const movies=[
- {title:"Shadow Kingdom",type:"Movie",genre:"Action",year:"2026",a:"#70352e",b:"#171b36",watch:"",download:""},
- {title:"Beyond The Stars",type:"Movie",genre:"Sci-Fi",year:"2026",a:"#254d76",b:"#19152e",watch:"",download:""},
- {title:"Silent Promise",type:"Series",genre:"Drama",year:"2025",a:"#79465f",b:"#25213b",watch:"",download:""},
- {title:"Dark Horizon",type:"Movie",genre:"Action",year:"2025",a:"#47534c",b:"#151b25",watch:"",download:""},
- {title:"Lost Universe",type:"Series",genre:"Sci-Fi",year:"2026",a:"#354b83",b:"#251a3b",watch:"",download:""},
- {title:"The Last Letter",type:"Movie",genre:"Drama",year:"2025",a:"#805c39",b:"#291e31",watch:"",download:""}
-];
+    <div class="categories">
+        <span>Action</span>
+        <span>Classic</span>
+        <span>Children</span>
+        <span>Horror</span>
+    </div>
 
-let selected="All";
+    <section class="hero">
+        <div class="hero-info">
+            <h3>Road House</h3>
+            <p>2024</p>
+        </div>
+        <div class="tagline">TAKE IT OUTSIDE</div>
+    </section>
 
-function render(){
- const q=document.getElementById("search").value.toLowerCase();
- const list=movies.filter(m=>
- (selected==="All"||m.type===selected||m.genre===selected)&&
- m.title.toLowerCase().includes(q)
- );
+    <section class="trending">
 
- document.getElementById("grid").innerHTML=list.length?list.map((m)=>{
- const watch=m.watch ? `<a class="watch" href="${m.watch}" target="_blank" rel="noopener">WATCH NOW</a>` : `<a class="watch" href="#" onclick="missing(event)">WATCH NOW</a>`;
- const download=m.download ? `<a class="download" href="${m.download}" target="_blank" rel="noopener">DOWNLOAD</a>` : `<a class="download" href="#" onclick="missing(event)">DOWNLOAD</a>`;
- return `
- <article class="card">
-  <div class="poster" style="--a:${m.a};--b:${m.b}">
-   <strong>${m.title.toUpperCase()}</strong>
-  </div>
-  <div class="info">
-   <span class="tag">${m.genre}</span>
-   <h3>${m.title}</h3>
-   <p>${m.type} · ${m.year}</p>
-   <div class="actions">${watch}${download}</div>
-  </div>
- </article>`;
- }).join(""):'<div class="empty">No movies found.</div>';
-}
+        <div class="section-heading">
+            <h2>Trending Now</h2>
+            <a href="#">View All</a>
+        </div>
 
-function filter(f,b){
- selected=f;
- document.querySelectorAll(".filters button").forEach(x=>x.classList.remove("active"));
- b.classList.add("active");
- render();
-}
+        <div class="movies">
 
-function missing(e){
- e.preventDefault();
- alert("An authorized video link has not been added yet.");
-}
+            <div class="movie-card">
+                <div class="poster one">
+                    <div class="poster-label">Freelance</div>
+                </div>
+                <div class="movie-info">
+                    <h4>Freelance</h4>
+                    <p>2023</p>
+                </div>
+            </div>
 
-document.getElementById("search").addEventListener("input",render);
-render();
-</script>
+            <div class="movie-card">
+                <div class="poster two">
+                    <div class="poster-label">The Beekeeper</div>
+                </div>
+                <div class="movie-info">
+                    <h4>The Beekeeper</h4>
+                    <p>2024</p>
+                </div>
+            </div>
+
+            <div class="movie-card">
+                <div class="poster three">
+                    <div class="poster-label">Silent Night</div>
+                </div>
+                <div class="movie-info">
+                    <h4>Silent Night</h4>
+                    <p>2023</p>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+</div>
+
+<div class="bottom-nav">
+    <div class="nav-item active">
+        <span class="icon">⌂</span>
+        <span>Home</span>
+    </div>
+
+    <div class="nav-item">
+        <span class="icon">⊙</span>
+        <span>Explore</span>
+    </div>
+
+    <div class="nav-item">
+        <span class="icon">▣</span>
+        <span>Library</span>
+    </div>
+
+    <div class="nav-item">
+        <span class="icon">♙</span>
+        <span>Profile</span>
+    </div>
+</div>
+
+</div>
+
 </body>
 </html>
